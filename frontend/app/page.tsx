@@ -1,96 +1,68 @@
-import Image from 'next/image';
+'use client';
+import { useEffect, useState } from 'react';
 
-import styles from './page.module.css';
+import getPokeData from './api/getPokeData';
+import getPokeName from './api/getPokeName';
+import getPokeUrlList from './api/getPokeUrlList';
+import PokeCard from './comonents/pokeCard';
+import { Poke, PokeNo, PokeUrl } from './type/poke';
 
-export default function Home() {
+const Page = () => {
+  const initNo = {
+    start: 0,
+    end: 12,
+  };
+  const [pokeNo, setPokeNo] = useState<PokeNo>(initNo);
+  const [pokeList, setPokeList] = useState<Poke[]>();
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchData = async () => {
+    const pokeUrlList: PokeUrl[] = await getPokeUrlList(pokeNo);
+    const pokeDataList: Poke[] = await fetchPokeData(pokeUrlList);
+    const pokeNameList = await fetchPokeName(pokeDataList);
+    const convertData: Poke[] = await pokeDataList.map((poke, index) => ({
+      ...poke,
+      name: pokeNameList[index],
+    }));
+
+    setPokeList(convertData);
+    setIsLoading(false);
+  };
+
+  const fetchPokeData = async (pokeUrlList: PokeUrl[]) => {
+    const resPokeData = pokeUrlList.map(async (pokeUrl) => {
+      return await getPokeData(pokeUrl);
+    });
+    return Promise.all(resPokeData);
+  };
+
+  const fetchPokeName = async (pokeDataList: Poke[]) => {
+    const resPokeNameData = pokeDataList.map(async (pokeData) => {
+      return await getPokeName(pokeData.speciesUrl);
+    });
+    return await Promise.all(resPokeNameData);
+  };
+
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pokeNo]);
+
+  console.log('まとめ', pokeList);
+
+  if (isLoading) {
+    return <>読み込み中...</>;
+  }
+
+  if (!pokeList || pokeList.length === 0) {
+    return <>データが見つかりません。</>;
+  }
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    <>
+      <PokeCard pokeList={pokeList} />
+    </>
   );
-}
+};
+
+export default Page;
