@@ -64,7 +64,7 @@ const PokeCard = ({ drawerOpen }: Props) => {
 
   const [pokeList, setPokeList] = useState<Poke[]>();
   const [isLoading, setIsLoading] = useState(true);
-  const [isHira, setIsHira] = useState(false);
+  const [isHira, setIsHira] = useState(true);
 
   const ScrollableContainer = styled(Box)(({ theme }) => ({
     overflowY: 'auto',
