@@ -19,9 +19,6 @@ const getPokeData = async (pokeUrl: PokeUrl): Promise<Poke> => {
     speed: res.data.stats[5].base_stat,
   };
   return convertRes;
-  // } catch (error) {
-  //   console.error(error);
-  // }
 };
 
 export default getPokeData;

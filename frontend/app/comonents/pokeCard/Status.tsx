@@ -13,7 +13,7 @@ type Props = {
 
 const StatusText = styled(Box)({
   marginTop: '5px',
-  fontSize: '18px',
+  fontSize: '16px',
 });
 
 const Status = ({

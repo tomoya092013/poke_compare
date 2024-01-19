@@ -3,6 +3,7 @@ import { PolarGrid, PolarRadiusAxis, Radar, RadarChart } from 'recharts';
 import { Box, Stack, Typography } from '@mui/material';
 
 type Props = {
+  isCompare: boolean;
   HP: number[];
   attack: number[];
   defence: number[];
@@ -15,12 +16,13 @@ type StatusProps = {
   title: string;
   titleTop: number;
   titleLeft: number;
-  status: number;
+  status: number | null;
   top: number;
   left: number;
 };
 
 const Chart = ({
+  isCompare,
   HP,
   attack,
   defence,
@@ -61,6 +63,23 @@ const Chart = ({
     },
   ];
 
+  const totalParameter = {
+    A:
+      HP[0] +
+      attack[0] +
+      defence[0] +
+      specialAttack[0] +
+      specialDefence[0] +
+      speed[0],
+    B:
+      HP[1] +
+      attack[1] +
+      defence[1] +
+      specialAttack[1] +
+      specialDefence[1] +
+      speed[1],
+  };
+
   const StatusValue = ({
     title,
     titleTop,
@@ -95,21 +114,34 @@ const Chart = ({
           <PolarRadiusAxis angle={90} domain={[0, 160]} />
           <Radar
             dataKey="A"
-            stroke="#3CB371"
-            fill="#98FB98"
+            stroke={isCompare ? '#ff0057' : '#009c07'}
+            fill={isCompare ? '#ffc5ec' : '#70ffa6'}
             fillOpacity={0.6}
           />
-          <Radar dataKey="B" stroke="blue" fill="black" fillOpacity={0.6} />
+          <Radar
+            dataKey="B"
+            stroke="#3b00ff"
+            fill="#c5fff8"
+            fillOpacity={0.6}
+          />
         </RadarChart>
-        <Stack direction="row" sx={{ position: 'absolute', top: 0, left: 80 }}>
+
+        <Stack
+          direction="row"
+          sx={{
+            position: 'absolute',
+            top: isCompare ? 5 : 0,
+            left: isCompare ? 92 : 80,
+          }}
+        >
           <Typography variant="caption">HP</Typography>
-          <Box marginLeft="5px"> {HP[0]}</Box>
+          {!isCompare && <Box marginLeft="5px"> {HP[0]}</Box>}
         </Stack>
         <StatusValue
           title={'こうげき'}
           titleTop={35}
           titleLeft={150}
-          status={attack[0]}
+          status={isCompare ? null : attack[0]}
           top={55}
           left={175}
         />
@@ -117,22 +149,26 @@ const Chart = ({
           title={'ぼうぎょ'}
           titleTop={150}
           titleLeft={150}
-          status={defence[0]}
+          status={isCompare ? null : defence[0]}
           top={130}
           left={175}
         />
         <Stack
           direction="row"
-          sx={{ position: 'absolute', top: 180, left: 60 }}
+          sx={{
+            position: 'absolute',
+            top: 180,
+            left: isCompare ? 75 : 60,
+          }}
         >
           <Typography variant="caption">とくこう</Typography>
-          <Box marginLeft="5px">{specialAttack[0]}</Box>
+          {!isCompare && <Box marginLeft="5px">{specialAttack[0]}</Box>}
         </Stack>
         <StatusValue
           title={'とくぼう'}
           titleTop={150}
           titleLeft={0}
-          status={specialDefence[0]}
+          status={isCompare ? null : specialDefence[0]}
           top={130}
           left={0}
         />
@@ -140,10 +176,37 @@ const Chart = ({
           title={'すばやさ'}
           titleTop={35}
           titleLeft={0}
-          status={speed[0]}
+          status={isCompare ? null : speed[0]}
           top={55}
           left={0}
         />
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 85,
+            left: isCompare ? -3 : 83,
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{ color: isCompare ? '#ff0057' : '#009c07' }}
+          >
+            {totalParameter.A}
+          </Typography>
+        </Box>
+        {isCompare && (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 85,
+              left: 170,
+            }}
+          >
+            <Typography variant="h6" sx={{ color: '#3b00ff' }}>
+              {totalParameter.B}
+            </Typography>
+          </Box>
+        )}
       </Box>
     </>
   );
