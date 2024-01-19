@@ -23,9 +23,10 @@ const CompareParameter = ({ toggleOpen, drawerOpen }: Props) => {
       {drawerOpen && (
         <Stack
           direction="row"
-          justifyContent="center"
+          justifyContent="flex-start"
           alignItems="center"
-          sx={{ height: '250px' }}
+          gap={1}
+          sx={{ height: '250px', overflowX: 'auto' }}
         >
           <LeftCard />
           <Chart
