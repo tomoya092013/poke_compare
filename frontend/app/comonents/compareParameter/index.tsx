@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Divider, Stack, Switch } from '@mui/material';

@@ -64,6 +64,7 @@ const PokeCard = ({ drawerOpen }: Props) => {
 
   const [pokeList, setPokeList] = useState<Poke[]>();
   const [isLoading, setIsLoading] = useState(true);
+  const [isHira, setIsHira] = useState(false);
 
   const ScrollableContainer = styled(Box)(({ theme }) => ({
     overflowY: 'auto',
@@ -92,6 +93,29 @@ const PokeCard = ({ drawerOpen }: Props) => {
     setIsLoading(false);
   };
 
+  const kataToHira = (str: string) => {
+    return str.replace(/[\u30A1-\u30FA]/g, (ch) =>
+      String.fromCharCode(ch.charCodeAt(0) - 0x60)
+    );
+  };
+
+  const hiraToKata = (str: string) => {
+    return str.replace(/[\u3041-\u3096]/g, (ch) =>
+      String.fromCharCode(ch.charCodeAt(0) + 0x60)
+    );
+  };
+
+  const nameHiraKana = (name: string | undefined) => {
+    if (name) {
+      return isHira ? hiraToKata(name) : kataToHira(name);
+    }
+    return '';
+  };
+
+  const toggleHiraKana = () => {
+    setIsHira((prevIsHira) => !prevIsHira);
+  };
+
   const fetchPokeData = async (pokeUrlList: PokeUrl[]) => {
     const resPokeData = pokeUrlList.map(async (pokeUrl) => {
       return await getPokeData(pokeUrl);
@@ -114,17 +138,20 @@ const PokeCard = ({ drawerOpen }: Props) => {
   if (isLoading) {
     return (
       <Stack
-        justifyContent="center"
-        alignItems="center"
-        height="20vh"
-        sx={{ zIndex: 2 }}
+        sx={{
+          zIndex: 1000,
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
       >
         <CircularProgress size={60} sx={{ color: '#03ff00' }} />
       </Stack>
     );
   }
 
-  if (!pokeList || pokeList.length === 0) {
+  if (!pokeList) {
     return <>データが見つかりません。</>;
   }
 
@@ -142,7 +169,13 @@ const PokeCard = ({ drawerOpen }: Props) => {
                   gap={2}
                 >
                   <Typography variant="h6">No.{poke.id}</Typography>
-                  <Typography variant="h5">{poke.name}</Typography>
+                  <Typography
+                    variant="h5"
+                    onClick={() => toggleHiraKana()}
+                    sx={{ cursor: 'pointer' }}
+                  >
+                    {nameHiraKana(poke.name)}
+                  </Typography>
                 </Stack>
 
                 <Types>

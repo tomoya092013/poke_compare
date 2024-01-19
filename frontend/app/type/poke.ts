@@ -26,16 +26,3 @@ export type PokeUrl = {
   name: string;
   url: string;
 };
-
-// export type ComparePoke = {
-//   id: number;
-//   name?: string;
-//   img: string;
-//   types: string[];
-//   hp: number;
-//   attack: number;
-//   defence: number;
-//   specialAttack: number;
-//   specialDefence: number;
-//   speed: number;
-// };

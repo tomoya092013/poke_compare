@@ -51,7 +51,7 @@ const LeftCard = () => {
         }}
       >
         {leftPokeData.id === 0 ? (
-          <>ポケモンを押して！</>
+          <>ポケモンを押して！！</>
         ) : (
           <Stack>
             <Stack

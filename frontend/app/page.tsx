@@ -20,7 +20,7 @@ const HeaderContainer = styled(Box)({
 });
 
 const Page = () => {
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleOpen = () => {
     setDrawerOpen(!drawerOpen);

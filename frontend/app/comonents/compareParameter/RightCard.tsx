@@ -50,7 +50,7 @@ const RightCard = () => {
         }}
       >
         {rightPokeData.id === 0 ? (
-          <>ポケモンを選んで！！</>
+          <>ポケモンを押して！！</>
         ) : (
           <Stack>
             <Stack
