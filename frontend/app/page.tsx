@@ -1,5 +1,6 @@
 'use client';
 
+import Head from 'next/head';
 import { useState } from 'react';
 import { Provider } from 'react-redux';
 
@@ -28,6 +29,13 @@ const Page = () => {
 
   return (
     <Provider store={store}>
+      <Head>
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+      </Head>
       <HeaderContainer>
         <CompareParameter toggleOpen={toggleOpen} drawerOpen={drawerOpen} />
         <GenerationList />
