@@ -9,6 +9,7 @@ import { Box, Divider, styled } from '@mui/material';
 import CompareParameter from './comonents/compareParameter';
 import GenerationList from './comonents/generationList';
 import PokeCard from './comonents/pokeCard';
+import ToggleButton from './comonents/toggleButton';
 import store from './store/store';
 
 const HeaderContainer = styled(Box)({
@@ -21,10 +22,15 @@ const HeaderContainer = styled(Box)({
 });
 
 const Page = () => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [compareOpen, setCompareOpen] = useState(false);
+  const [isChart, setIsChart] = useState(true);
 
   const toggleOpen = () => {
-    setDrawerOpen(!drawerOpen);
+    setCompareOpen(!compareOpen);
+  };
+
+  const clickToggleChartFlavorText = () => {
+    setIsChart(!isChart);
   };
 
   return (
@@ -37,11 +43,17 @@ const Page = () => {
         />
       </Head>
       <HeaderContainer>
-        <CompareParameter toggleOpen={toggleOpen} drawerOpen={drawerOpen} />
+        <CompareParameter toggleOpen={toggleOpen} compareOpen={compareOpen} />
         <GenerationList />
-        <Divider sx={{ margin: '10px' }}>ポケモンデータ</Divider>
+        <Divider>
+          ポケモンデータ
+          <ToggleButton
+            checked={isChart}
+            onChange={clickToggleChartFlavorText}
+          />
+        </Divider>
       </HeaderContainer>
-      <PokeCard drawerOpen={drawerOpen} />
+      <PokeCard compareOpen={compareOpen} isChart={isChart} />
     </Provider>
   );
 };

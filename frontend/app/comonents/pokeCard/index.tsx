@@ -13,17 +13,19 @@ import {
 import { setLeftPoke } from '../../actions/setLeftPoke';
 import { setRightPoke } from '../../actions/setRightPoke';
 import getPokeData from '../../api/getPokeData';
-import getPokeName from '../../api/getPokeName';
+import getPokeJaData from '../../api/getPokeJaData';
 import getPokeUrlList from '../../api/getPokeUrlList';
 import { Poke, PokeUrl } from '../../type/poke';
 import { RootState } from '../../type/rootState';
 import { COMPAREHEIGHT, MD, SM, XS } from '../../utils/breakPoint';
 import Chart from '../chart';
+import FlavorText from './FlavorText';
 import PokeImg from './PokeImg';
 import TypeColor from './TypeColor';
 
 type Props = {
-  drawerOpen: boolean;
+  compareOpen: boolean;
+  isChart: boolean;
 };
 
 const CardArea = styled(Stack)({
@@ -49,7 +51,7 @@ const Types = styled(Stack)({
   gap: 10,
 });
 
-const PokeCard = ({ drawerOpen }: Props) => {
+const PokeCard = ({ compareOpen, isChart }: Props) => {
   const pokeGenerationNo = useSelector(
     (state: RootState) => state.pokeGenerationNo
   );
@@ -69,13 +71,13 @@ const PokeCard = ({ drawerOpen }: Props) => {
   const ScrollableContainer = styled(Box)(({ theme }) => ({
     overflowY: 'auto',
     [theme.breakpoints.up('xs')]: {
-      marginTop: `${drawerOpen ? XS + COMPAREHEIGHT : XS}px`,
+      marginTop: `${compareOpen ? XS + COMPAREHEIGHT : XS}px`,
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: `${drawerOpen ? SM + COMPAREHEIGHT : SM}px`,
+      marginTop: `${compareOpen ? SM + COMPAREHEIGHT : SM}px`,
     },
     [theme.breakpoints.up('md')]: {
-      marginTop: `${drawerOpen ? MD + COMPAREHEIGHT : MD}px`,
+      marginTop: `${compareOpen ? MD + COMPAREHEIGHT : MD}px`,
     },
   }));
 
@@ -83,10 +85,11 @@ const PokeCard = ({ drawerOpen }: Props) => {
     setIsLoading(true);
     const pokeUrlList: PokeUrl[] = await getPokeUrlList(pokeGenerationNo);
     const pokeDataList: Poke[] = await fetchPokeData(pokeUrlList);
-    const pokeNameList = await fetchPokeName(pokeDataList);
-    const convertData: Poke[] = await pokeDataList.map((poke, index) => ({
+    const pokeJaDataList = await fetchPokeJaData(pokeDataList);
+    const convertData: Poke[] = pokeDataList.map((poke, index) => ({
       ...poke,
-      name: pokeNameList[index],
+      name: pokeJaDataList[index]?.name,
+      flavorText: pokeJaDataList[index]?.flavorText,
     }));
 
     setPokeList(convertData);
@@ -123,11 +126,11 @@ const PokeCard = ({ drawerOpen }: Props) => {
     return Promise.all(resPokeData);
   };
 
-  const fetchPokeName = async (pokeDataList: Poke[]) => {
-    const resPokeNameData = pokeDataList.map(async (pokeData) => {
-      if (pokeData.speciesUrl) return await getPokeName(pokeData.speciesUrl);
+  const fetchPokeJaData = async (pokeDataList: Poke[]) => {
+    const resPokeJaDataList = pokeDataList.map(async (pokeData) => {
+      if (pokeData.speciesUrl) return await getPokeJaData(pokeData.speciesUrl);
     });
-    return await Promise.all(resPokeNameData);
+    return await Promise.all(resPokeJaDataList);
   };
 
   useEffect(() => {
@@ -154,6 +157,8 @@ const PokeCard = ({ drawerOpen }: Props) => {
   if (!pokeList) {
     return <>データが見つかりません。</>;
   }
+
+  // console.log('う', pokeList);
 
   return (
     <ScrollableContainer>
@@ -195,15 +200,19 @@ const PokeCard = ({ drawerOpen }: Props) => {
                   />
                 </Box>
 
-                <Chart
-                  isCompare={false}
-                  HP={[poke.hp, 0]}
-                  attack={[poke.attack, 0]}
-                  defence={[poke.defence, 0]}
-                  specialAttack={[poke.specialAttack, 0]}
-                  specialDefence={[poke.specialDefence, 0]}
-                  speed={[poke.speed, 0]}
-                />
+                {isChart ? (
+                  <Chart
+                    isCompare={false}
+                    HP={[poke.hp, 0]}
+                    attack={[poke.attack, 0]}
+                    defence={[poke.defence, 0]}
+                    specialAttack={[poke.specialAttack, 0]}
+                    specialDefence={[poke.specialDefence, 0]}
+                    speed={[poke.speed, 0]}
+                  />
+                ) : (
+                  <FlavorText flavorText={poke.flavorText} />
+                )}
               </Card>
             </CardArea>
           </Grid>
