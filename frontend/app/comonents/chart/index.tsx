@@ -109,7 +109,7 @@ const Chart = ({
   return (
     <>
       <Box sx={{ position: 'relative' }}>
-        <RadarChart width={200} height={200} data={data}>
+        <RadarChart width={180} height={180} data={data}>
           <PolarGrid />
           <PolarRadiusAxis angle={90} domain={[0, 160]} />
           <Radar
@@ -130,8 +130,8 @@ const Chart = ({
           direction="row"
           sx={{
             position: 'absolute',
-            top: isCompare ? 5 : 0,
-            left: isCompare ? 92 : 80,
+            top: 5,
+            left: isCompare ? 82 : 72,
           }}
         >
           <Typography variant="caption">HP</Typography>
@@ -139,26 +139,26 @@ const Chart = ({
         </Stack>
         <StatusValue
           title={'こうげき'}
-          titleTop={35}
-          titleLeft={150}
+          titleTop={30}
+          titleLeft={130}
           status={isCompare ? null : attack[0]}
-          top={55}
-          left={175}
+          top={45}
+          left={155}
         />
         <StatusValue
           title={'ぼうぎょ'}
-          titleTop={150}
-          titleLeft={150}
+          titleTop={130}
+          titleLeft={130}
           status={isCompare ? null : defence[0]}
-          top={130}
-          left={175}
+          top={115}
+          left={155}
         />
         <Stack
           direction="row"
           sx={{
             position: 'absolute',
-            top: 180,
-            left: isCompare ? 75 : 60,
+            top: 160,
+            left: isCompare ? 65 : 50,
           }}
         >
           <Typography variant="caption">とくこう</Typography>
@@ -166,29 +166,29 @@ const Chart = ({
         </Stack>
         <StatusValue
           title={'とくぼう'}
-          titleTop={150}
+          titleTop={130}
           titleLeft={0}
           status={isCompare ? null : specialDefence[0]}
-          top={130}
+          top={115}
           left={0}
         />
         <StatusValue
           title={'すばやさ'}
-          titleTop={35}
+          titleTop={30}
           titleLeft={0}
           status={isCompare ? null : speed[0]}
-          top={55}
+          top={45}
           left={0}
         />
         <Box
           sx={{
             position: 'absolute',
-            top: 85,
-            left: isCompare ? -3 : 83,
+            top: isCompare ? -25 : 74,
+            left: 70,
           }}
         >
           <Typography
-            variant="h6"
+            variant="h5"
             sx={{ color: isCompare ? '#ff0057' : '#009c07' }}
           >
             {totalParameter.A}
@@ -198,11 +198,11 @@ const Chart = ({
           <Box
             sx={{
               position: 'absolute',
-              top: 85,
-              left: 170,
+              top: 180,
+              left: 70,
             }}
           >
-            <Typography variant="h6" sx={{ color: '#3b00ff' }}>
+            <Typography variant="h5" sx={{ color: '#3b00ff' }}>
               {totalParameter.B}
             </Typography>
           </Box>

@@ -13,9 +13,8 @@ const PokeImg = ({ name, img, backgroundColor }: Props) => {
       alt={name}
       src={img}
       sx={{
-        padding: '10px',
-        width: 125,
-        height: 125,
+        width: 150,
+        height: 150,
         backgroundColor: backgroundColor,
         borderRadius: '50%',
       }}

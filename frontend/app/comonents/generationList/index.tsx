@@ -7,6 +7,10 @@ import { setPokeGenerationNo } from '../../actions/selectGeneration';
 import { GenerationNo } from '../../type/poke';
 import { generationList } from '../../utils/generationList';
 
+type Props = {
+  generationOpen: boolean;
+};
+
 const GenerationList = styled(Grid)({
   flexDirection: 'row',
   justifyContent: 'center',
@@ -27,7 +31,7 @@ const StyledButton = styled(Button)({
   },
 });
 
-const GenerationButton = () => {
+const GenerationButton = ({ generationOpen }: Props) => {
   const dispatch = useDispatch();
   const [isSelected, setIsSelected] = useState(0);
 
@@ -40,30 +44,41 @@ const GenerationButton = () => {
 
   return (
     <>
-      <GenerationList container>
-        {generationList.map((generation, index) => (
-          <Grid
-            key={index}
-            item
-            xs={3}
-            sm={2}
-            md={1}
-            margin={1}
-            justifyContent="center"
-          >
-            <Stack justifyContent="center" alignItems="center">
-              <StyledButton
-                key={index}
-                variant="outlined"
-                onClick={() => selectGeneration(generation.generationNo, index)}
-                sx={{ backgroundColor: isSelected === index ? '#ffe500' : '' }}
-              >
-                {generation.title}
-              </StyledButton>
-            </Stack>
-          </Grid>
-        ))}
-      </GenerationList>
+      {generationOpen && (
+        <GenerationList
+          container
+          sx={{
+            margin: '0px',
+          }}
+        >
+          {generationList.map((generation, index) => (
+            <Grid
+              key={index}
+              item
+              xs={3}
+              sm={2}
+              md={1}
+              margin={1}
+              justifyContent="center"
+            >
+              <Stack justifyContent="center" alignItems="center">
+                <StyledButton
+                  key={index}
+                  variant="outlined"
+                  onClick={() =>
+                    selectGeneration(generation.generationNo, index)
+                  }
+                  sx={{
+                    backgroundColor: isSelected === index ? '#ffe500' : '',
+                  }}
+                >
+                  {generation.title}
+                </StyledButton>
+              </Stack>
+            </Grid>
+          ))}
+        </GenerationList>
+      )}
     </>
   );
 };

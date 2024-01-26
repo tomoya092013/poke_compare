@@ -17,7 +17,13 @@ import getPokeJaData from '../../api/getPokeJaData';
 import getPokeUrlList from '../../api/getPokeUrlList';
 import { Poke, PokeUrl } from '../../type/poke';
 import { RootState } from '../../type/rootState';
-import { COMPAREHEIGHT, MD, SM, XS } from '../../utils/breakPoint';
+import {
+  BASE,
+  COMPARE_HEIGHT,
+  GENERATION_MD,
+  GENERATION_SM,
+  GENERATION_XS,
+} from '../../utils/breakPoint';
 import Chart from '../chart';
 import FlavorText from './FlavorText';
 import PokeImg from './PokeImg';
@@ -25,6 +31,7 @@ import TypeColor from './TypeColor';
 
 type Props = {
   compareOpen: boolean;
+  generationOpen: boolean;
   isChart: boolean;
 };
 
@@ -51,7 +58,7 @@ const Types = styled(Stack)({
   gap: 10,
 });
 
-const PokeCard = ({ compareOpen, isChart }: Props) => {
+const PokeCard = ({ compareOpen, generationOpen, isChart }: Props) => {
   const pokeGenerationNo = useSelector(
     (state: RootState) => state.pokeGenerationNo
   );
@@ -71,13 +78,25 @@ const PokeCard = ({ compareOpen, isChart }: Props) => {
   const ScrollableContainer = styled(Box)(({ theme }) => ({
     overflowY: 'auto',
     [theme.breakpoints.up('xs')]: {
-      marginTop: `${compareOpen ? XS + COMPAREHEIGHT : XS}px`,
+      marginTop: `${
+        compareOpen
+          ? BASE + COMPARE_HEIGHT + (generationOpen ? GENERATION_XS : 0)
+          : BASE + (generationOpen ? GENERATION_XS : 0)
+      }px`,
     },
     [theme.breakpoints.up('sm')]: {
-      marginTop: `${compareOpen ? SM + COMPAREHEIGHT : SM}px`,
+      marginTop: `${
+        compareOpen
+          ? BASE + COMPARE_HEIGHT + (generationOpen ? GENERATION_SM : 0)
+          : BASE + (generationOpen ? GENERATION_SM : 0)
+      }px`,
     },
     [theme.breakpoints.up('md')]: {
-      marginTop: `${compareOpen ? MD + COMPAREHEIGHT : MD}px`,
+      marginTop: `${
+        compareOpen
+          ? BASE + COMPARE_HEIGHT + (generationOpen ? GENERATION_MD : 0)
+          : BASE + (generationOpen ? GENERATION_MD : 0)
+      }px`,
     },
   }));
 

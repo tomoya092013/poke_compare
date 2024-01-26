@@ -23,14 +23,19 @@ const HeaderContainer = styled(Box)({
 
 const Page = () => {
   const [compareOpen, setCompareOpen] = useState(false);
+  const [generationOpen, setGenerationOpen] = useState(true);
   const [isChart, setIsChart] = useState(true);
 
-  const toggleOpen = () => {
+  const toggleCompare = () => {
     setCompareOpen(!compareOpen);
   };
 
   const clickToggleChartFlavorText = () => {
     setIsChart(!isChart);
+  };
+
+  const toggleGeneration = () => {
+    setGenerationOpen(!generationOpen);
   };
 
   return (
@@ -43,9 +48,14 @@ const Page = () => {
         />
       </Head>
       <HeaderContainer>
-        <CompareParameter toggleOpen={toggleOpen} compareOpen={compareOpen} />
-        <GenerationList />
-        <Divider>
+        <CompareParameter
+          toggleCompare={toggleCompare}
+          compareOpen={compareOpen}
+          toggleGeneration={toggleGeneration}
+          generationOpen={generationOpen}
+        />
+        <GenerationList generationOpen={generationOpen} />
+        <Divider sx={{ margin: '10px' }}>
           ポケモンデータ
           <ToggleButton
             checked={isChart}
@@ -53,7 +63,11 @@ const Page = () => {
           />
         </Divider>
       </HeaderContainer>
-      <PokeCard compareOpen={compareOpen} isChart={isChart} />
+      <PokeCard
+        compareOpen={compareOpen}
+        generationOpen={generationOpen}
+        isChart={isChart}
+      />
     </Provider>
   );
 };

@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { useSelector } from 'react-redux';
 
-import { Divider, Stack } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 
 import { RootState } from '../../type/rootState';
 import ToggleButton from '../toggleButton';
@@ -11,11 +11,18 @@ import RightCard from './RightCard';
 const Chart = dynamic(() => import('../chart'), { ssr: false });
 
 type Props = {
-  toggleOpen: () => void;
+  toggleCompare: () => void;
   compareOpen: boolean;
+  toggleGeneration: () => void;
+  generationOpen: boolean;
 };
 
-const CompareParameter = ({ toggleOpen, compareOpen }: Props) => {
+const CompareParameter = ({
+  toggleCompare,
+  compareOpen,
+  toggleGeneration,
+  generationOpen,
+}: Props) => {
   const leftPokeData = useSelector((state: RootState) => state.leftPokeData);
   const rightPokeData = useSelector((state: RootState) => state.rightPokeData);
 
@@ -50,8 +57,17 @@ const CompareParameter = ({ toggleOpen, compareOpen }: Props) => {
       )}
 
       <Divider sx={{ margin: '10px' }}>
-        種族値比較エリア
-        <ToggleButton checked={compareOpen} onChange={toggleOpen} />
+        <Stack direction="row">
+          比較エリア
+          <ToggleButton checked={compareOpen} onChange={toggleCompare} />
+          <Stack direction="row" marginLeft="10px">
+            世代
+            <ToggleButton
+              checked={generationOpen}
+              onChange={toggleGeneration}
+            />
+          </Stack>
+        </Stack>
       </Divider>
     </>
   );
