@@ -60,7 +60,7 @@ const Page = () => {
           generationOpen={generationOpen}
         />
         <GenerationList generationOpen={generationOpen} />
-        <Divider sx={{ margin: '10px' }}>
+        <Divider sx={{}}>
           <Stack direction="row">
             <Stack direction="row">
               パラメーター
