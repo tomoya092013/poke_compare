@@ -76,24 +76,12 @@ const Page = () => {
           </Stack>
         </Divider>
       </HeaderContainer>
-      <Box
-        sx={{
-          backgroundImage: 'url("/monsterball.jpg")',
-          backgroundSize: 'cover',
-          backgroundAttachment: 'fixed',
-          padding: '10px',
-          '@media screen and (max-width: 450px)': {
-            backgroundSize: 'contain',
-          },
-        }}
-      >
-        <PokeCard
-          compareOpen={compareOpen}
-          generationOpen={generationOpen}
-          isChart={isChart}
-          isHira={isHira}
-        />
-      </Box>
+      <PokeCard
+        compareOpen={compareOpen}
+        generationOpen={generationOpen}
+        isChart={isChart}
+        isHira={isHira}
+      />
     </Provider>
   );
 };
