@@ -60,7 +60,7 @@ const Page = () => {
           generationOpen={generationOpen}
         />
         <GenerationList generationOpen={generationOpen} />
-        <Divider sx={{}}>
+        <Divider sx={{ marginBottom: '5px' }}>
           <Stack direction="row">
             <Stack direction="row">
               パラメーター
@@ -76,12 +76,24 @@ const Page = () => {
           </Stack>
         </Divider>
       </HeaderContainer>
-      <PokeCard
-        compareOpen={compareOpen}
-        generationOpen={generationOpen}
-        isChart={isChart}
-        isHira={isHira}
-      />
+      <Box
+        sx={{
+          backgroundImage: 'url("/monsterball.jpg")',
+          backgroundSize: 'cover',
+          backgroundAttachment: 'fixed',
+          padding: '10px',
+          '@media screen and (max-width: 450px)': {
+            backgroundSize: 'contain',
+          },
+        }}
+      >
+        <PokeCard
+          compareOpen={compareOpen}
+          generationOpen={generationOpen}
+          isChart={isChart}
+          isHira={isHira}
+        />
+      </Box>
     </Provider>
   );
 };

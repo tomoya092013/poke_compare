@@ -50,6 +50,7 @@ const Card = styled(Stack)({
   border: '1px solid #000',
   boxShadow: '15px 11px 15px -5px #707aff',
   borderRadius: '10px',
+  backgroundColor: '#fff',
 });
 
 const Types = styled(Stack)({
@@ -164,7 +165,7 @@ const PokeCard = ({ compareOpen, generationOpen, isChart, isHira }: Props) => {
           transform: 'translate(-50%, -50%)',
         }}
       >
-        <CircularProgress size={60} sx={{ color: '#03ff00' }} />
+        <CircularProgress size={70} sx={{ color: '#03ff00' }} />
       </Stack>
     );
   }
