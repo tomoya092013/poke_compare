@@ -17,6 +17,7 @@ const PokeImg = ({ name, img, backgroundColor }: Props) => {
         height: 150,
         backgroundColor: backgroundColor,
         borderRadius: '50%',
+        overflow: 'visible',
       }}
     />
   );

@@ -6,7 +6,9 @@ const getPokeData = async (pokeUrl: PokeUrl): Promise<Poke> => {
   const res = await axios.get(pokeUrl.url);
   const convertRes = {
     id: res.data.id,
-    img: res.data.sprites.front_default,
+    img:
+      res.data.sprites.other['official-artwork'].front_default ||
+      res.data.sprites.front_default,
     types: res.data.types.map(
       (target: { type: { name: string } }) => target.type.name
     ),

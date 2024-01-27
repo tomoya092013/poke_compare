@@ -14,7 +14,7 @@ const TypeColor = ({ type, isCompare }: Props) => {
     <Box
       sx={{
         backgroundColor: color,
-        margin: '10px 1px',
+        margin: '5px 1px',
         padding: isCompare ? '2px 3px' : '5px 10px',
         borderRadius: '10px',
         width: isCompare ? '60px' : '105px',
