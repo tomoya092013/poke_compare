@@ -33,6 +33,7 @@ type Props = {
   compareOpen: boolean;
   generationOpen: boolean;
   isChart: boolean;
+  isHira: boolean;
 };
 
 const CardArea = styled(Stack)({
@@ -58,7 +59,7 @@ const Types = styled(Stack)({
   gap: 10,
 });
 
-const PokeCard = ({ compareOpen, generationOpen, isChart }: Props) => {
+const PokeCard = ({ compareOpen, generationOpen, isChart, isHira }: Props) => {
   const pokeGenerationNo = useSelector(
     (state: RootState) => state.pokeGenerationNo
   );
@@ -73,7 +74,6 @@ const PokeCard = ({ compareOpen, generationOpen, isChart }: Props) => {
 
   const [pokeList, setPokeList] = useState<Poke[]>();
   const [isLoading, setIsLoading] = useState(true);
-  const [isHira, setIsHira] = useState(true);
 
   const ScrollableContainer = styled(Box)(({ theme }) => ({
     overflowY: 'auto',
@@ -129,13 +129,9 @@ const PokeCard = ({ compareOpen, generationOpen, isChart }: Props) => {
 
   const nameHiraKana = (name: string | undefined) => {
     if (name) {
-      return isHira ? hiraToKata(name) : kataToHira(name);
+      return isHira ? kataToHira(name) : hiraToKata(name);
     }
     return '';
-  };
-
-  const toggleHiraKana = () => {
-    setIsHira((prevIsHira) => !prevIsHira);
   };
 
   const fetchPokeData = async (pokeUrlList: PokeUrl[]) => {
@@ -193,11 +189,7 @@ const PokeCard = ({ compareOpen, generationOpen, isChart }: Props) => {
                   gap={2}
                 >
                   <Typography variant="h6">No.{poke.id}</Typography>
-                  <Typography
-                    variant="h5"
-                    onClick={() => toggleHiraKana()}
-                    sx={{ cursor: 'pointer' }}
-                  >
+                  <Typography variant="h5" sx={{ cursor: 'pointer' }}>
                     {nameHiraKana(poke.name)}
                   </Typography>
                 </Stack>

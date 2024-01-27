@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { useState } from 'react';
 import { Provider } from 'react-redux';
 
-import { Box, Divider, styled } from '@mui/material';
+import { Box, Divider, Stack, styled } from '@mui/material';
 
 import CompareParameter from './comonents/compareParameter';
 import GenerationList from './comonents/generationList';
@@ -25,6 +25,11 @@ const Page = () => {
   const [compareOpen, setCompareOpen] = useState(false);
   const [generationOpen, setGenerationOpen] = useState(true);
   const [isChart, setIsChart] = useState(true);
+  const [isHira, setIsHira] = useState(false);
+
+  const toggleHiraKana = () => {
+    setIsHira(!isHira);
+  };
 
   const toggleCompare = () => {
     setCompareOpen(!compareOpen);
@@ -56,17 +61,26 @@ const Page = () => {
         />
         <GenerationList generationOpen={generationOpen} />
         <Divider sx={{ margin: '10px' }}>
-          ポケモンデータ
-          <ToggleButton
-            checked={isChart}
-            onChange={clickToggleChartFlavorText}
-          />
+          <Stack direction="row">
+            <Stack direction="row">
+              パラメーター
+              <ToggleButton
+                checked={isChart}
+                onChange={clickToggleChartFlavorText}
+              />
+            </Stack>
+            <Stack direction="row" marginLeft="10px">
+              ひらがな
+              <ToggleButton checked={isHira} onChange={toggleHiraKana} />
+            </Stack>
+          </Stack>
         </Divider>
       </HeaderContainer>
       <PokeCard
         compareOpen={compareOpen}
         generationOpen={generationOpen}
         isChart={isChart}
+        isHira={isHira}
       />
     </Provider>
   );
